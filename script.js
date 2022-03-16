@@ -78,7 +78,35 @@ document.querySelector('.btn--close-cookie').addEventListener('click', () => {
 });
 
 message.style.backgroundColor = '#37383d';
-message.style.height = Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
+
+///////////////////////////////////////
+// Tabbed component
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+// tabs.forEach(tab => tab.addEventListener('click', () => {
+//   console.log(tabs)
+// }))
+
+tabsContainer.addEventListener('click', e => {
+  const clicked = e.target.closest('.operations__tab');
+  if (!clicked) return;
+  const dataTab = clicked.dataset.tab;
+
+  tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+  clicked.classList.add('operations__tab--active');
+
+  tabsContent.forEach(tab =>
+    tab.classList.remove('operations__content--active')
+  );
+  
+  document
+    .querySelector(`.operations__content--${dataTab}`)
+    .classList.add('operations__content--active');
+});
 
 
 ///////////////////////////////////////
