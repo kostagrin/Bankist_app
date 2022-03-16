@@ -5,6 +5,10 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+const nav = document.querySelector('.nav');
 
 ///////////////////////////////////////
 // Modal window
@@ -82,10 +86,7 @@ message.style.height =
   Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px';
 
 ///////////////////////////////////////
-// Tabbed component
-const tabs = document.querySelectorAll('.operations__tab');
-const tabsContainer = document.querySelector('.operations__tab-container');
-const tabsContent = document.querySelectorAll('.operations__content');
+// Tabbed component functionality
 
 // tabs.forEach(tab => tab.addEventListener('click', () => {
 //   console.log(tabs)
@@ -102,12 +103,31 @@ tabsContainer.addEventListener('click', e => {
   tabsContent.forEach(tab =>
     tab.classList.remove('operations__content--active')
   );
-  
+
   document
     .querySelector(`.operations__content--${dataTab}`)
     .classList.add('operations__content--active');
 });
 
+///////////////////////////////////////
+// Menu fade animation
+function nandleHoverEvent(e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if (el !== link) {
+        el.style.opacity = this;
+      }
+    });
+    logo.style.opacity = this;
+  }
+}
+
+nav.addEventListener('mouseover', nandleHoverEvent.bind(0.5));
+nav.addEventListener('mouseout', nandleHoverEvent.bind(1));
 
 ///////////////////////////////////////
 ///////////////////////////////////////
