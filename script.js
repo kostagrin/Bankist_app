@@ -130,6 +130,24 @@ nav.addEventListener('mouseover', nandleHoverEvent.bind(0.5));
 nav.addEventListener('mouseout', nandleHoverEvent.bind(1));
 
 ///////////////////////////////////////
+// Sticky navigation
+function stickyNav(entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) {
+    nav.classList.add('sticky');
+  } else {
+    nav.classList.remove('sticky');
+  }
+}
+
+const navHeight = nav.getBoundingClientRect().height;
+const headerObserver = new IntersectionObserver(stickyNav, {
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+headerObserver.observe(header);
+
+///////////////////////////////////////
 ///////////////////////////////////////
 ///////////////////////////////////////
 
