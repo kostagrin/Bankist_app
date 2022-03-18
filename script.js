@@ -68,18 +68,20 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
   }
 });
 
+///////////////////////////////////////
+// Cookie message
 let message = document.createElement('div');
 message.classList.add('cookie-message');
 message.innerHTML =
   'We use cookies to improve site productivity. <button class="btn btn--close-cookie">Got it</button>';
 
 let header = document.querySelector('.header');
-header.append(message);
+// header.append(message);
 // header.append(message.cloneNode(true));
 
-document.querySelector('.btn--close-cookie').addEventListener('click', () => {
-  message.remove();
-});
+// document.querySelector('.btn--close-cookie').addEventListener('click', () => {
+//   message.remove();
+// });
 
 message.style.backgroundColor = '#37383d';
 message.style.height =
@@ -146,6 +148,27 @@ const headerObserver = new IntersectionObserver(stickyNav, {
   rootMargin: `-${navHeight}px`,
 });
 headerObserver.observe(header);
+
+///////////////////////////////////////
+// Reveal sections
+const allSections = document.querySelectorAll('.section');
+
+function revealSection(entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+}
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  threshold: 0.15,
+})
+
+
+allSections.forEach(section => {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
 
 ///////////////////////////////////////
 ///////////////////////////////////////
