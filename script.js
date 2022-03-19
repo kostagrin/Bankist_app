@@ -171,24 +171,49 @@ allSections.forEach(section => {
 
 ///////////////////////////////////////
 // Lazy loaging images
-const imgTargets = document.querySelectorAll('img[data-src]');
+/*
+1) select an acting element:
+    	    const el = document.querySelector('.someClass');
 
-function imgLoad(entries, observer) {
-  const [entry] = entries;
-  if (!entry.isIntersecting) return;
-  entry.target.src = entry.target.dataset.src;
-  
-  entry.target.addEventListener('load', () => entry.target.classList.remove('lazy-img'));
-  
-  observer.unobserve(entry.target);
+2) define options:
+	    const options = {
+	        root: null,
+	        thershold: 0 - 1,
+	        rootMargin: "0px 0px 0px 0px"
+	    }
+
+3) create a new Intersection Observer: 
+	   const observer = new IntersectionObserver(callback, options);
+
+4) create a callback function:
+    	   function = callback(entries, observer) {
+       	       entries.forEach(entry => entry.doSomeThing)		
+	  }
+
+5) apply observer to the acting element:
+       	   observer.observe(el), or
+	   el.forEach(el => observer.observe(el))
+*/
+
+const lazyImgs = document.querySelectorAll('img[data-src]');
+const lazyImgOptions = {
+  rootMargin: '-200px 0px',
+  threshold: 0,
+};
+const lazyImgObserver = new IntersectionObserver(loadImg, lazyImgOptions);
+
+function loadImg(entries, lazyImgObserver) {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.src = entry.target.dataset.src;
+    entry.target.addEventListener('load', () => entry.target.classList.remove('lazy-img'));
+    lazyImgObserver.unobserve(entry.target);
+  });
 }
 
-const imgObserver = new IntersectionObserver(imgLoad, {
-  threshold: 0,
-  rootMargin: '200px'
-})
-
-imgTargets.forEach(img => imgObserver.observe(img));
+lazyImgs.forEach(img => {
+  lazyImgObserver.observe(img);
+});
 
 ///////////////////////////////////////
 ///////////////////////////////////////
