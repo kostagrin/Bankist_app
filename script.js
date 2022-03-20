@@ -206,7 +206,9 @@ function loadImg(entries, lazyImgObserver) {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
     entry.target.src = entry.target.dataset.src;
-    entry.target.addEventListener('load', () => entry.target.classList.remove('lazy-img'));
+    entry.target.addEventListener('load', () =>
+      entry.target.classList.remove('lazy-img')
+    );
     lazyImgObserver.unobserve(entry.target);
   });
 }
@@ -214,6 +216,44 @@ function loadImg(entries, lazyImgObserver) {
 lazyImgs.forEach(img => {
   lazyImgObserver.observe(img);
 });
+
+///////////////////////////////////////
+// Slider
+const slides = document.querySelectorAll('.slide');
+const slider = document.querySelector('.slider');
+const [btnLeft, btnRight] = document.querySelectorAll('.slider__btn');
+let currentSlide = 0; // 
+// slider.style.transform = 'scale(.3) translateX(-500px)';
+// slider.style.overflow = 'visible';
+
+function goToSlide(slide) {
+  slides.forEach((s, i) => {
+    s.style.transform = `translateX(${(i - slide) * 100}%)`; 
+  });
+}
+
+goToSlide(0);
+
+const nextSlide = () => {
+  if (currentSlide === slides.length - 1) {
+    currentSlide = 0;
+  } else {
+    currentSlide++;
+  }
+  goToSlide(currentSlide);
+};
+
+const previousSlide = () => {
+  if (currentSlide === 0) {
+    slides.length - 1;
+  } else {
+    currentSlide--;    
+  }
+  goToSlide(currentSlide);
+}
+
+btnRight.addEventListener('click', nextSlide);
+btnLeft.addEventListener('click', previousSlide);
 
 ///////////////////////////////////////
 ///////////////////////////////////////
