@@ -255,6 +255,11 @@ const previousSlide = () => {
 btnRight.addEventListener('click', nextSlide);
 btnLeft.addEventListener('click', previousSlide);
 
+document.addEventListener('keydown', e => {
+  e.key === 'ArrowLeft' && previousSlide();
+  e.key === 'ArrowRight' && nextSlide();
+})
+
 ///////////////////////////////////////
 ///////////////////////////////////////
 ///////////////////////////////////////
